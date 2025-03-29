@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ExternalLink, Github } from "lucide-react";
 import GlobalsApi from "../_utils/GlobalsApi";
 
@@ -9,16 +9,28 @@ interface Portfolio {
   description: string;
   images: { url: string };
   portfoliocom: { lanuges: string }[];
-  lanuges: string;
+}
+
+interface ApiResponse {
+  portfolios: Portfolio[];
 }
 
 const ProjectsPage = () => {
   const [projects, setPortfolio] = useState<Portfolio[]>([]);
   async function GetALLN() {
-    const resp = await GlobalsApi.getAllPortfolio();
-    console.log(resp);
-    setPortfolio(resp?.portfolios);
+    try {
+      const resp = await GlobalsApi.getAllPortfolio();
+      console.log("API Response:", resp);
+
+      const data = resp as ApiResponse;
+
+      setPortfolio(data.portfolios || []);
+    } catch (error) {
+      console.error("Error fetching portfolio data:", error);
+      setPortfolio([]); // Fallback in case of an error
+    }
   }
+
   useEffect(() => {
     GetALLN();
   }, []);
@@ -57,10 +69,10 @@ const ProjectsPage = () => {
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.portfoliocom.map((tag) => (
                   <span
-                    key={tag?.lanuges}
+                    key={tag.lanuges}
                     className="text-xs px-2 py-1 rounded-full bg-white/5 text-white/70"
                   >
-                    {tag?.lanuges}
+                    {tag.lanuges}
                   </span>
                 ))}
               </div>

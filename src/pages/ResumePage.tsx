@@ -1,4 +1,3 @@
-import React from "react";
 import { Download, Briefcase, GraduationCap, Award } from "lucide-react";
 
 const ResumePage = () => {

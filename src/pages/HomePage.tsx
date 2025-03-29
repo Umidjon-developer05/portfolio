@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
