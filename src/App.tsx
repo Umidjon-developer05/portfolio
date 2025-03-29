@@ -10,7 +10,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ResumePage from "./pages/ResumePage";
 import SkillsPage from "./pages/SkillsPage";
 import ContactPage from "./pages/ContactPage";
-import NotFound from "./pages/NotFound";
+// import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -69,7 +69,7 @@ const App = () => (
               </Layout>
             }
           />
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
