@@ -19,7 +19,6 @@ function BlogsSlugPage() {
 			const data = await getDetailedBlog(slug as string)
 			setBlog(data)
 			document.title = data.title
-			document.images[0].src = data.image.url
 			setCurrentUrl(window.location.href)
 		}
 		fetchBlog()
@@ -36,9 +35,7 @@ function BlogsSlugPage() {
 
 	return (
 		<div className='max-w-5xl mx-auto'>
-			<Helmet
-				link={[{ rel: 'icon', type: 'image/svg+xml', href: '/blogs/:slug' }]}
-			>
+			<Helmet>
 				<title>{blog.title}</title>
 				<meta name='description' content={description} />
 				<link rel='canonical' href={currentUrl} />
