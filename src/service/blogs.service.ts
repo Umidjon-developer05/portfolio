@@ -2,8 +2,7 @@ import { IArchivedBlog, IBlog } from '@/types'
 import request, { gql } from 'graphql-request'
 import { cache } from 'react'
 
-const graphqlAPI =
-	'https://ap-south-1.cdn.hygraph.com/content/cm9g76c2p02ra07tacqgh13m8/master'!
+const graphqlAPI ='https://ap-south-1.cdn.hygraph.com/content/cm9g76c2p02ra07tacqgh13m8/master'!
 
 export const getBlogs = async () => {
 	const query = gql`
