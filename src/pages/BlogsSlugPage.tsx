@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getReadingTime } from '@/lib/utils'
 import { getDetailedBlog } from '@/service/blogs.service'
@@ -6,51 +6,54 @@ import { format } from 'date-fns'
 import { ArrowUpRight, CalendarDays, Clock, Minus } from 'lucide-react'
 import parse from 'html-react-parser'
 import { Helmet } from '@dr.pogodin/react-helmet'
-import { useState } from 'react'
 import { IBlog } from '@/types'
 import ShareBtns from '@/components/share-btns'
 
 function BlogsSlugPage() {
 	const { slug } = useParams()
 	const [blog, setBlog] = useState<IBlog | null>(null)
+	const [currentUrl, setCurrentUrl] = useState<string>('')
 
 	useEffect(() => {
 		async function fetchBlog() {
 			const data = await getDetailedBlog(slug as string)
 			setBlog(data)
 			document.title = data.title
+			document.images[0].src = data.image.url
+			setCurrentUrl(window.location.href)
 		}
 		fetchBlog()
 	}, [slug])
 
 	if (!blog) return <div className='pt-32 text-center'>Loading...</div>
-	console.log(blog.content.html)
+
+	const absoluteImageUrl = blog.image.url.startsWith('http')
+		? blog.image.url
+		: `${window.location.origin}${blog.image.url}`
+
+	const description =
+		blog.description || blog.content.html.slice(0, 160).replace(/<[^>]+>/g, '')
 
 	return (
-		<div className=' max-w-5xl mx-auto'>
-			<Helmet>
+		<div className='max-w-5xl mx-auto'>
+			<Helmet
+				link={[{ rel: 'icon', type: 'image/svg+xml', href: '/blogs/:slug' }]}
+			>
 				<title>{blog.title}</title>
-				<meta
-					name='description'
-					content={blog.title || blog.author.bio || 'Blog post'}
-				/>
+				<meta name='description' content={description} />
+				<link rel='canonical' href={currentUrl} />
 				<meta property='og:title' content={blog.title} />
-				<meta
-					property='og:description'
-					content={blog.title || blog.author.bio || 'Blog post'}
-				/>
-				<meta property='og:image' content={blog.image.url} />
+				<meta property='og:description' content={description} />
+				<meta property='og:image' content={absoluteImageUrl} />
 				<meta property='og:type' content='article' />
-				<meta property='og:url' content={window.location.href} />
+				<meta property='og:url' content={currentUrl} />
 
 				<meta name='twitter:card' content='summary_large_image' />
 				<meta name='twitter:title' content={blog.title} />
-				<meta
-					name='twitter:description'
-					content={blog.title || blog.author.bio || 'Blog post'}
-				/>
-				<meta name='twitter:image' content={blog.image.url} />
+				<meta name='twitter:description' content={description} />
+				<meta name='twitter:image' content={absoluteImageUrl} />
 			</Helmet>
+
 			<h1 className='lg:text-6xl md:text-5xl text-4xl font-creteRound'>
 				{blog.title}
 			</h1>
@@ -80,9 +83,9 @@ function BlogsSlugPage() {
 
 			<img
 				src={blog.image.url}
-				alt='alt'
-				width={`1120`}
-				height={`595`}
+				alt={blog.title}
+				width='1120'
+				height='595'
 				className='mt-4 rounded-md'
 			/>
 
