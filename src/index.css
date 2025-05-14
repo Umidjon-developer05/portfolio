@@ -1,104 +1,455 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 98%;
+	:root {
+		--background: 0 0% 5%;
+		--foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+		--card: 240 10% 3.9%;
+		--card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+		--popover: 240 10% 3.9%;
+		--popover-foreground: 0 0% 98%;
 
-    --primary: 263 90% 51%;
-    --primary-foreground: 0 0% 100%;
+		--primary: 263 90% 51%;
+		--primary-foreground: 0 0% 100%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+		--secondary: 240 3.7% 15.9%;
+		--secondary-foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+		--muted: 240 3.7% 15.9%;
+		--muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+		--accent: 240 3.7% 15.9%;
+		--accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+		--border: 240 3.7% 15.9%;
+		--input: 240 3.7% 15.9%;
+		--ring: 240 4.9% 83.9%;
 
-    --radius: 0.75rem;
+		--radius: 0.75rem;
 
-    --sidebar-background: 0 0% 5%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 263 90% 51%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 240 4.9% 83.9%;
-  }
+		--sidebar-background: 0 0% 5%;
+		--sidebar-foreground: 0 0% 98%;
+		--sidebar-primary: 263 90% 51%;
+		--sidebar-primary-foreground: 0 0% 100%;
+		--sidebar-accent: 240 3.7% 15.9%;
+		--sidebar-accent-foreground: 0 0% 98%;
+		--sidebar-border: 240 3.7% 15.9%;
+		--sidebar-ring: 240 4.9% 83.9%;
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    @apply font-sans;
-    overflow-x: hidden;
-  }
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		@apply font-sans;
+		overflow-x: hidden;
+	}
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg;
-  }
+	.glass-card {
+		@apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg;
+	}
 
-  .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
-  }
+	.hover-lift {
+		@apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+	}
 
-  .sidebar-link {
-    @apply flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300 relative overflow-hidden;
-  }
+	.sidebar-link {
+		@apply flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300 relative overflow-hidden;
+	}
 
-  .sidebar-link::before {
-    content: "";
-    @apply absolute left-0 top-0 w-0 h-full bg-primary/20 transition-all duration-300;
-    z-index: -1;
-  }
+	.sidebar-link::before {
+		content: '';
+		@apply absolute left-0 top-0 w-0 h-full bg-primary/20 transition-all duration-300;
+		z-index: -1;
+	}
 
-  .sidebar-link.active::before,
-  .sidebar-link:hover::before {
-    @apply w-full;
-  }
+	.sidebar-link.active::before,
+	.sidebar-link:hover::before {
+		@apply w-full;
+	}
 
-  .sidebar-link.active {
-    @apply text-primary-foreground;
-  }
+	.sidebar-link.active {
+		@apply text-primary-foreground;
+	}
 
-  .page-transition-enter {
-    @apply opacity-0 translate-x-8;
-  }
+	.page-transition-enter {
+		@apply opacity-0 translate-x-8;
+	}
 
-  .page-transition-enter-active {
-    @apply opacity-100 translate-x-0 transition-all duration-500;
-  }
+	.page-transition-enter-active {
+		@apply opacity-100 translate-x-0 transition-all duration-500;
+	}
 
-  .page-transition-exit {
-    @apply opacity-100 translate-x-0;
-  }
+	.page-transition-exit {
+		@apply opacity-100 translate-x-0;
+	}
 
-  .page-transition-exit-active {
-    @apply opacity-0 -translate-x-8 transition-all duration-500;
-  }
+	.page-transition-exit-active {
+		@apply opacity-0 -translate-x-8 transition-all duration-500;
+	}
 }
+.wave {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
+	opacity: 0.1;
+}
+
+.section-title {
+	position: relative;
+}
+
+.section-title span {
+	background-image: url("data:image/svg+xml,%3Csvg width='298' height='32' viewBox='0 0 298 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 17.1944C62.6418 7.28318 174.478 -8.49028 296 27' stroke='%23F6BFB3' stroke-width='9'/%3E%3C/svg%3E%0A");
+	background-size: 260px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	padding: 0 12px;
+}
+
+.dark .section-title span {
+	background-image: url("data:image/svg+xml,%3Csvg width='298' height='32' viewBox='0 0 298 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 17.1944C62.6418 7.28318 174.478 -8.49028 296 27' stroke='%230d364d' stroke-width='9'/%3E%3C/svg%3E%0A");
+}
+/* Language icons */
+.language-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 4px;
+	margin-right: 10px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.js-icon {
+	background-color: #f7df1e;
+	color: #000;
+}
+
+.ts-icon {
+	background-color: #3178c6;
+	color: white;
+}
+
+.html-icon {
+	background-color: #e34c26;
+	color: white;
+}
+
+.css-icon {
+	background-color: #264de4;
+	color: white;
+}
+
+.py-icon {
+	background-color: #3776ab;
+	color: white;
+}
+
+.java-icon {
+	background-color: #007396;
+	color: white;
+}
+
+.jsx-icon,
+.tsx-icon {
+	background-color: #61dafb;
+	color: #282c34;
+}
+
+/* Cursor styling */
+.cursor {
+	position: relative;
+	display: inline-block;
+	width: 2px;
+	height: 1.2em;
+	background-color: #fff;
+	animation: blink 1s step-end infinite;
+	vertical-align: text-bottom;
+}
+
+@keyframes blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+/* Line numbers */
+.line-numbers {
+	font-family: monospace;
+	font-size: inherit;
+	padding-top: 1rem;
+	user-select: none;
+	min-width: 2.5rem;
+}
+
+.line-number {
+	line-height: 1.5;
+}
+
+/* Prism.js theme overrides */
+.prism-dracula {
+	background: #282a36 !important;
+	color: #f8f8f2 !important;
+}
+
+.prism-dracula .token.comment,
+.prism-dracula .token.prolog,
+.prism-dracula .token.doctype,
+.prism-dracula .token.cdata {
+	color: #6272a4 !important;
+}
+
+.prism-dracula .token.punctuation {
+	color: #f8f8f2 !important;
+}
+
+.prism-dracula .token.property,
+.prism-dracula .token.tag,
+.prism-dracula .token.constant,
+.prism-dracula .token.symbol,
+.prism-dracula .token.deleted {
+	color: #ff79c6 !important;
+}
+
+.prism-dracula .token.boolean,
+.prism-dracula .token.number {
+	color: #bd93f9 !important;
+}
+
+.prism-dracula .token.selector,
+.prism-dracula .token.attr-name,
+.prism-dracula .token.string,
+.prism-dracula .token.char,
+.prism-dracula .token.builtin,
+.prism-dracula .token.inserted {
+	color: #50fa7b !important;
+}
+
+.prism-dracula .token.operator,
+.prism-dracula .token.entity,
+.prism-dracula .token.url,
+.prism-dracula .language-css .token.string,
+.prism-dracula .style .token.string {
+	color: #f8f8f2 !important;
+}
+
+.prism-dracula .token.atrule,
+.prism-dracula .token.attr-value,
+.prism-dracula .token.keyword {
+	color: #ff79c6 !important;
+}
+
+.prism-dracula .token.function,
+.prism-dracula .token.class-name {
+	color: #8be9fd !important;
+}
+
+.prism-dracula .token.regex,
+.prism-dracula .token.important,
+.prism-dracula .token.variable {
+	color: #f1fa8c !important;
+}
+
+/* GitHub Light Theme */
+.prism-github {
+	background: #f6f8fa !important;
+	color: #24292e !important;
+}
+
+.prism-github .token.comment,
+.prism-github .token.prolog,
+.prism-github .token.doctype,
+.prism-github .token.cdata {
+	color: #6a737d !important;
+}
+
+.prism-github .token.punctuation {
+	color: #24292e !important;
+}
+
+.prism-github .token.property,
+.prism-github .token.tag,
+.prism-github .token.constant,
+.prism-github .token.symbol,
+.prism-github .token.deleted {
+	color: #d73a49 !important;
+}
+
+.prism-github .token.boolean,
+.prism-github .token.number {
+	color: #005cc5 !important;
+}
+
+.prism-github .token.selector,
+.prism-github .token.attr-name,
+.prism-github .token.string,
+.prism-github .token.char,
+.prism-github .token.builtin,
+.prism-github .token.inserted {
+	color: #22863a !important;
+}
+
+.prism-github .token.operator,
+.prism-github .token.entity,
+.prism-github .token.url,
+.prism-github .language-css .token.string,
+.prism-github .style .token.string {
+	color: #24292e !important;
+}
+
+.prism-github .token.atrule,
+.prism-github .token.attr-value,
+.prism-github .token.keyword {
+	color: #d73a49 !important;
+}
+
+.prism-github .token.function,
+.prism-github .token.class-name {
+	color: #6f42c1 !important;
+}
+
+/* Monokai Theme */
+.prism-monokai {
+	background: #272822 !important;
+	color: #f8f8f2 !important;
+}
+
+.prism-monokai .token.comment,
+.prism-monokai .token.prolog,
+.prism-monokai .token.doctype,
+.prism-monokai .token.cdata {
+	color: #75715e !important;
+}
+
+.prism-monokai .token.punctuation {
+	color: #f8f8f2 !important;
+}
+
+.prism-monokai .token.property,
+.prism-monokai .token.tag,
+.prism-monokai .token.constant,
+.prism-monokai .token.symbol,
+.prism-monokai .token.deleted {
+	color: #f92672 !important;
+}
+
+.prism-monokai .token.boolean,
+.prism-monokai .token.number {
+	color: #ae81ff !important;
+}
+
+.prism-monokai .token.selector,
+.prism-monokai .token.attr-name,
+.prism-monokai .token.string,
+.prism-monokai .token.char,
+.prism-monokai .token.builtin,
+.prism-monokai .token.inserted {
+	color: #a6e22e !important;
+}
+
+/* Solarized Dark Theme */
+.prism-solarized {
+	background: #002b36 !important;
+	color: #839496 !important;
+}
+
+.prism-solarized .token.comment,
+.prism-solarized .token.prolog,
+.prism-solarized .token.doctype,
+.prism-solarized .token.cdata {
+	color: #586e75 !important;
+}
+
+.prism-solarized .token.punctuation {
+	color: #839496 !important;
+}
+
+.prism-solarized .token.property,
+.prism-solarized .token.tag,
+.prism-solarized .token.constant,
+.prism-solarized .token.symbol,
+.prism-solarized .token.deleted {
+	color: #dc322f !important;
+}
+
+.prism-solarized .token.boolean,
+.prism-solarized .token.number {
+	color: #d33682 !important;
+}
+
+.prism-solarized .token.selector,
+.prism-solarized .token.attr-name,
+.prism-solarized .token.string,
+.prism-solarized .token.char,
+.prism-solarized .token.builtin,
+.prism-solarized .token.inserted {
+	color: #2aa198 !important;
+}
+
+/* Nord Theme */
+.prism-nord {
+	background: #2e3440 !important;
+	color: #d8dee9 !important;
+}
+
+.prism-nord .token.comment,
+.prism-nord .token.prolog,
+.prism-nord .token.doctype,
+.prism-nord .token.cdata {
+	color: #4c566a !important;
+}
+
+.prism-nord .token.punctuation {
+	color: #d8dee9 !important;
+}
+
+.prism-nord .token.property,
+.prism-nord .token.tag,
+.prism-nord .token.constant,
+.prism-nord .token.symbol,
+.prism-nord .token.deleted {
+	color: #81a1c1 !important;
+}
+
+.prism-nord .token.boolean,
+.prism-nord .token.number {
+	color: #b48ead !important;
+}
+
+.prism-nord .token.selector,
+.prism-nord .token.attr-name,
+.prism-nord .token.string,
+.prism-nord .token.char,
+.prism-nord .token.builtin,
+.prism-nord .token.inserted {
+	color: #a3be8c !important;
+}
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&display=swap');
