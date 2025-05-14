@@ -328,18 +328,6 @@ export default function CodeToImageConverter() {
 	// Highlight code using Prism.js
 	useEffect(() => {
 		// Map our language values to Prism's language classes
-		const languageMap: Record<string, string> = {
-			javascript: 'language-javascript',
-			typescript: 'language-typescript',
-			html: 'language-html',
-			css: 'language-css',
-			python: 'language-python',
-			java: 'language-java',
-			jsx: 'language-jsx',
-			tsx: 'language-tsx',
-		}
-
-		const prismLanguage = languageMap[language] || 'language-javascript'
 
 		// Highlight the code
 		const highlighted = Prism.highlight(
