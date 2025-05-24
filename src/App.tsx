@@ -12,7 +12,6 @@ import SkillsPage from './pages/SkillsPage'
 import ContactPage from './pages/ContactPage'
 import BlogsPage from './pages/BlogsPage'
 import BlogsSlugPage from './pages/BlogsSlugPage'
-import CodeSnippetsPage from './pages/CodeSnippetsPage'
 import CodeToImageConverterPage from './pages/CodeToImageConverterPage'
 // import NotFound from "./pages/NotFound";
 
@@ -73,15 +72,7 @@ const App = () => (
 							</Layout>
 						}
 					/>
-					<Route
-						path='/code-snippets'
-						element={
-							<Layout>
-								<CodeSnippetsPage />
-							</Layout>
-						}
-					/>
-					
+
 					<Route
 						path='/code-image-converter'
 						element={

@@ -10,7 +10,6 @@ import {
 	Menu,
 	X,
 	Blocks,
-	Code2Icon,
 	Code2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -40,7 +39,6 @@ const Sidebar = () => {
 		{ name: 'Resume', path: '/resume', icon: FileText },
 		{ name: 'Skills', path: '/skills', icon: Code },
 		{ name: 'Blogs', path: '/blogs', icon: Blocks },
-		{ name: 'CodeSnippets', path: '/code-snippets', icon: Code2Icon },
 		{
 			name: 'CodeImageConverter',
 			path: '/code-image-converter',
