@@ -37,6 +37,7 @@ export const getBlogs = async () => {
 	`
 
 	const { blogs } = await request<{ blogs: IBlog[] }>(graphqlAPI, query)
+	console.log("umidjon-1-blog",blog)
 	return blogs
 }
 
