@@ -37,7 +37,7 @@ export const getBlogs = async () => {
 	`
 
 	const { blogs } = await request<{ blogs: IBlog[] }>(graphqlAPI, query)
-	console.log("umidjon-1-blog",blogs)
+	
 	return blogs
 }
 
@@ -75,6 +75,7 @@ export const getDetailedBlog = cache(async (slug: string) => {
 	`
 
 	const { blog } = await request<{ blog: IBlog }>(graphqlAPI, query, { slug })
+	console.log("umidjon-1-blog",blog)
 	return blog
 })
 
