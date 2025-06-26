@@ -23,7 +23,7 @@ function BlogsSlugPage() {
 		}
 		fetchBlog()
 	}, [slug])
-
+	console.log( "blog1",blog)
 	if (!blog) return <div className='pt-32 text-center'>Loading...</div>
 
 	const absoluteImageUrl = blog.image.url.startsWith('http')
