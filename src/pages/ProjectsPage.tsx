@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { ExternalLink, Github, X, Code, Eye } from 'lucide-react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, Environment, Sphere, Box } from '@react-three/drei'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, easeInOut } from 'framer-motion'
 import * as THREE from 'three'
 import GlobalsApi from '../_utils/GlobalsApi'
 
@@ -346,15 +346,15 @@ const ProjectsPage = () => {
 		hidden: {
 			opacity: 0,
 			y: 50,
-			rotateX: -15,
+			rotateX: 90,
 		},
 		visible: {
 			opacity: 1,
 			y: 0,
 			rotateX: 0,
 			transition: {
-				duration: 0.6,
-				ease: [0.42, 0, 0.58, 1], // cubic-bezier for easeOut
+				duration: 0.5,
+				ease: easeInOut, // ✅ Correct type
 			},
 		},
 	}
