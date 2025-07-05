@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 
 interface Skill {
 	src: string
@@ -15,6 +15,7 @@ interface SkillCategory {
 	gradient: string
 }
 
+// Move data outside component to prevent recreation
 const skillCategories: SkillCategory[] = [
 	{
 		title: 'Tools & DevOps',
@@ -46,14 +47,8 @@ const skillCategories: SkillCategory[] = [
 			{ src: 'redux', label: 'Redux' },
 			{ src: 'threejs', label: 'Three.js' },
 			{ src: 'vite', label: 'Vite' },
-			{
-				src: 'bootstrap',
-				label: 'Bootstrap',
-			},
-			{
-				src: 'materialui',
-				label: 'Material UI',
-			},
+			{ src: 'bootstrap', label: 'Bootstrap' },
+			{ src: 'materialui', label: 'Material UI' },
 			{
 				src: 'chakraui',
 				label: 'Chakra UI',
@@ -64,10 +59,7 @@ const skillCategories: SkillCategory[] = [
 				label: 'Ant Design',
 				svg: '<svg role="img" color="blue" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Ant Design</title><path d="M17.4511 6.6808c.5091-.5064.5091-1.3316 0-1.838l-1.8729-1.873.0027.0027c-.4957-.4957-1.3478-1.3478-2.5535-2.5508-.568-.5547-1.487-.5493-2.0498.0134L.426 10.9787a1.4426 1.4426 0 0 0 0 2.047l10.549 10.541a1.4506 1.4506 0 0 0 2.0497 0l4.4238-4.4211c.509-.5064.509-1.3317 0-1.8381a1.3049 1.3049 0 0 0-1.8408 0l-3.3493 3.3546c-.1393.1394-.3564.1394-.4957 0l-8.4268-8.4188c-.1394-.1393-.1394-.3563 0-.4956L11.76 3.3289c.0107-.0108.0241-.0188.0349-.0295.1393-.1099.3322-.0992.4608.0295l3.3547 3.352c.509.509 1.3343.509 1.8407 0zm-8.2446 5.375a2.8482 2.8456 0 1 0 5.6965 0 2.8482 2.8456 0 1 0-5.6965 0zm14.3672-1.0343l-3.293-3.277c-.5092-.5063-1.3344-.5063-1.8408.0028a1.2968 1.2968 0 0 0 0 1.838l2.2239 2.2213c.1393.1393.1393.3564 0 .4957l-2.1918 2.189a1.2968 1.2968 0 0 0 0 1.8382 1.3049 1.3049 0 0 0 1.8408 0l3.2635-3.2609a1.445 1.445 0 0 0-.0026-2.047Z"/></svg>',
 			},
-			{
-				src: 'vue',
-				label: 'Vue.js',
-			},
+			{ src: 'vue', label: 'Vue.js' },
 		],
 	},
 	{
@@ -81,10 +73,7 @@ const skillCategories: SkillCategory[] = [
 			{ src: 'php', label: 'PHP' },
 			{ src: 'django', label: 'Django' },
 			{ src: 'py', label: 'Python' },
-			{
-				src: 'fastapi',
-				label: 'FastAPI',
-			},
+			{ src: 'fastapi', label: 'FastAPI' },
 		],
 	},
 	{
@@ -135,7 +124,6 @@ const skillCategories: SkillCategory[] = [
 			},
 		],
 	},
-
 	{
 		title: 'IDE & Utilities',
 		emoji: '🛠️',
@@ -173,10 +161,7 @@ const skillCategories: SkillCategory[] = [
 				svg: '<svg role="img" color="green" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>WhatsApp</title><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>',
 			},
 			{ src: 'twitter', label: 'Twitter' },
-			{
-				src: 'instagram',
-				label: 'Instagram',
-			},
+			{ src: 'instagram', label: 'Instagram' },
 		],
 	},
 	{
@@ -194,124 +179,202 @@ const skillCategories: SkillCategory[] = [
 	},
 ]
 
+// Extracted components for better performance
+const SkillIcon = ({ skill }: { skill: Skill }) => {
+	if (skill.svg) {
+		return (
+			<div
+				className='w-12 h-12 md:w-14 md:h-14 drop-shadow-lg text-white flex items-center justify-center'
+				dangerouslySetInnerHTML={{
+					__html: skill.svg.replace(
+						'<svg',
+						'<svg class="w-full h-full" fill="currentColor"'
+					),
+				}}
+			/>
+		)
+	}
+
+	return (
+		<img
+			src={`https://skillicons.dev/icons?i=${skill.src}`}
+			alt={skill.label}
+			className='w-12 h-12 md:w-14 md:h-14 drop-shadow-lg'
+		/>
+	)
+}
+
+const SkillTooltip = ({ skill }: { skill: Skill; categoryTitle: string }) => (
+	<div className='absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-black/80 text-white text-xs rounded-lg whitespace-nowrap animate-fade-in z-20'>
+		{skill.label}
+		<div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80'></div>
+	</div>
+)
+
+const SkillItem = ({
+	skill,
+	categoryTitle,
+	skillIndex,
+	categoryIndex,
+	hoveredSkill,
+	onMouseEnter,
+	onMouseLeave,
+}: {
+	skill: Skill
+	categoryTitle: string
+	skillIndex: number
+	categoryIndex: number
+	hoveredSkill: string | null
+	onMouseEnter: () => void
+	onMouseLeave: () => void
+}) => {
+	const skillId = `${categoryTitle}-${skill.src}`
+	const isHovered = hoveredSkill === skillId
+
+	return (
+		<div
+			className='relative group/skill cursor-pointer animate-fade-up'
+			style={{
+				animationDelay: `${categoryIndex * 0.1 + skillIndex * 0.05}s`,
+			}}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+		>
+			<div className='relative flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-300 hover:scale-110 hover:-translate-y-2 hover:shadow-2xl hover:bg-white/10'>
+				<div className='absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300 blur-sm'></div>
+
+				<div className='relative z-10 transform transition-transform duration-300 group-hover/skill:rotate-12 group-hover/skill:scale-110'>
+					<SkillIcon skill={skill} />
+					<div className='absolute inset-0 rounded-full border-2 border-purple-400/50 scale-125 opacity-0 group-hover/skill:opacity-100 group-hover/skill:animate-ping'></div>
+				</div>
+
+				<span className='relative z-10 text-sm md:text-base font-medium text-white/90 group-hover/skill:text-white transition-colors duration-300 text-center'>
+					{skill.label}
+				</span>
+
+				{isHovered && (
+					<SkillTooltip skill={skill} categoryTitle={categoryTitle} />
+				)}
+			</div>
+		</div>
+	)
+}
+
+const CategoryHeader = ({
+	category,
+	categoryIndex,
+}: {
+	category: SkillCategory
+	categoryIndex: number
+}) => (
+	<div className='flex items-center gap-4 mb-8'>
+		<div
+			className='text-3xl animate-bounce'
+			style={{ animationDelay: `${categoryIndex * 0.2}s` }}
+		>
+			{category.emoji}
+		</div>
+		<h2 className='text-2xl md:text-3xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300'>
+			{category.title}
+		</h2>
+		<div className='flex-1 h-px bg-gradient-to-r from-white/30 to-transparent'></div>
+	</div>
+)
+
+const SkillCategory = ({
+	category,
+	categoryIndex,
+	hoveredSkill,
+	onSkillHover,
+}: {
+	category: SkillCategory
+	categoryIndex: number
+	hoveredSkill: string | null
+	onSkillHover: (skillId: string | null) => void
+}) => {
+	return (
+		<div
+			className='group animate-fade-up'
+			style={{ animationDelay: `${categoryIndex * 0.1}s` }}
+		>
+			<CategoryHeader category={category} categoryIndex={categoryIndex} />
+
+			<div
+				className={`relative rounded-2xl bg-gradient-to-br ${category.gradient} backdrop-blur-sm border border-white/10 p-6 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]`}
+			>
+				<div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6'>
+					{category.skills.map((skill, skillIndex) => (
+						<SkillItem
+							key={skill.src}
+							skill={skill}
+							categoryTitle={category.title}
+							skillIndex={skillIndex}
+							categoryIndex={categoryIndex}
+							hoveredSkill={hoveredSkill}
+							onMouseEnter={() =>
+								onSkillHover(`${category.title}-${skill.src}`)
+							}
+							onMouseLeave={() => onSkillHover(null)}
+						/>
+					))}
+				</div>
+			</div>
+		</div>
+	)
+}
+
 export default function SkillsShowcase() {
 	const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
+
+	const handleSkillHover = useCallback((skillId: string | null) => {
+		setHoveredSkill(skillId)
+	}, [])
+
+	const backgroundElements = useMemo(
+		() => (
+			<div className='absolute inset-0 overflow-hidden'>
+				<div className='absolute -top-40 -right-40 w-80 h-80 bg-purple-500/30 rounded-full blur-3xl animate-pulse'></div>
+				<div
+					className='absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl animate-pulse'
+					style={{ animationDelay: '1s' }}
+				></div>
+			</div>
+		),
+		[]
+	)
+
+	const header = useMemo(
+		() => (
+			<div className='text-center mb-16'>
+				<h1 className='text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4 animate-fade-in'>
+					My Skills Showcase
+				</h1>
+				<div className='w-32 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full'></div>
+			</div>
+		),
+		[]
+	)
 
 	return (
 		<div>
 			<div className='max-w-7xl mx-auto'>
 				<div className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl'>
-					{/* Animated background elements */}
-					<div className='absolute inset-0 overflow-hidden'>
-						<div className='absolute -top-40 -right-40 w-80 h-80 bg-purple-500/30 rounded-full blur-3xl animate-pulse'></div>
-						<div
-							className='absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl animate-pulse'
-							style={{ animationDelay: '1s' }}
-						></div>
-					</div>
+					{backgroundElements}
 
 					<div className='relative p-8 md:p-12'>
-						{/* Header */}
-						<div className='text-center mb-16'>
-							<h1 className='text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4 animate-fade-in'>
-								My Skills Showcase
-							</h1>
-							<div className='w-32 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full'></div>
-						</div>
+						{header}
 
-						{/* Skills Grid */}
 						<div className='space-y-12'>
 							{skillCategories.map((category, categoryIndex) => (
-								<div
+								<SkillCategory
 									key={category.title}
-									className='group animate-fade-up'
-									style={{ animationDelay: `${categoryIndex * 0.1}s` }}
-								>
-									{/* Category Header */}
-									<div className='flex items-center gap-4 mb-8'>
-										<div
-											className='text-3xl animate-bounce'
-											style={{ animationDelay: `${categoryIndex * 0.2}s` }}
-										>
-											{category.emoji}
-										</div>
-										<h2 className='text-2xl md:text-3xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300'>
-											{category.title}
-										</h2>
-										<div className='flex-1 h-px bg-gradient-to-r from-white/30 to-transparent'></div>
-									</div>
-
-									{/* Skills Container */}
-									<div
-										className={`relative rounded-2xl bg-gradient-to-br ${category.gradient} backdrop-blur-sm border border-white/10 p-6 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]`}
-									>
-										<div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6'>
-											{category.skills.map((skill, skillIndex) => (
-												<div
-													key={skill.src}
-													className='relative group/skill cursor-pointer animate-fade-up'
-													style={{
-														animationDelay: `${
-															categoryIndex * 0.1 + skillIndex * 0.05
-														}s`,
-													}}
-													onMouseEnter={() =>
-														setHoveredSkill(`${category.title}-${skill.src}`)
-													}
-													onMouseLeave={() => setHoveredSkill(null)}
-												>
-													{/* Skill Item */}
-													<div className='relative flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-300 hover:scale-110 hover:-translate-y-2 hover:shadow-2xl hover:bg-white/10'>
-														{/* Glow effect */}
-														<div className='absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300 blur-sm'></div>
-
-														{/* Icon container */}
-														<div className='relative z-10 transform transition-transform duration-300 group-hover/skill:rotate-12 group-hover/skill:scale-110'>
-															{skill.svg ? (
-																<div
-																	className='w-12 h-12 md:w-14 md:h-14 drop-shadow-lg text-white flex items-center justify-center'
-																	dangerouslySetInnerHTML={{
-																		__html: skill.svg.replace(
-																			'<svg',
-																			'<svg class="w-full h-full" fill="currentColor"'
-																		),
-																	}}
-																/>
-															) : (
-																<img
-																	src={`https://skillicons.dev/icons?i=${skill.src}`}
-																	alt={skill.label}
-																	className='w-12 h-12 md:w-14 md:h-14 drop-shadow-lg'
-																/>
-															)}
-
-															{/* Animated ring */}
-															<div className='absolute inset-0 rounded-full border-2 border-purple-400/50 scale-125 opacity-0 group-hover/skill:opacity-100 group-hover/skill:animate-ping'></div>
-														</div>
-
-														{/* Label */}
-														<span className='relative z-10 text-sm md:text-base font-medium text-white/90 group-hover/skill:text-white transition-colors duration-300 text-center'>
-															{skill.label}
-														</span>
-
-														{/* Hover tooltip */}
-														{hoveredSkill ===
-															`${category.title}-${skill.src}` && (
-															<div className='absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-black/80 text-white text-xs rounded-lg whitespace-nowrap animate-fade-in z-20'>
-																{skill.label}
-																<div className='absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80'></div>
-															</div>
-														)}
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
-								</div>
+									category={category}
+									categoryIndex={categoryIndex}
+									hoveredSkill={hoveredSkill}
+									onSkillHover={handleSkillHover}
+								/>
 							))}
 						</div>
-
-						{/* Footer */}
 					</div>
 				</div>
 			</div>
