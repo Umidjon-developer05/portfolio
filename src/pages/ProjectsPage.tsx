@@ -31,6 +31,7 @@ import {
   ExternalLink,
   Github,
   Eye,
+  Plane,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -65,6 +66,7 @@ const categoryIcons = {
   portfolio: User,
   "admin-panel": Settings,
   "music-website": Music,
+  "travel-website": Plane,
 };
 
 export default function ProjectCategories() {
@@ -191,7 +193,7 @@ export default function ProjectCategories() {
       </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-80 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-10">
         {activeProjects?.map((project) => (
           <Card
             key={project.id}
