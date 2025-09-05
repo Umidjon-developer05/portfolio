@@ -13,9 +13,10 @@ const ResumePage = () => {
           </h1>
         </div>
         <a
-          href="#"
+          href="/resume.pdf"
           className="mt-4 md:mt-0 inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-all group self-start animate-fade-up"
-        >
+          target="_blank"
+          >
           <Download className="h-4 w-4" />
           <span>Download CV</span>
         </a>
