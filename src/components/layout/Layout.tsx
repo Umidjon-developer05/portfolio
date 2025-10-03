@@ -1,65 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { cn } from "@/lib/utils";
+import React from "react";
 import Sidebar from "./Sidebar";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Scene3D } from "../Scene3D";
+import { motion } from "framer-motion";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const [prevPath, setPrevPath] = useState(location.pathname);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const isMobile = useIsMobile();
-
-  useEffect(() => {
-    // Initial page load animation
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    // Page transition animation
-    if (prevPath !== location.pathname) {
-      setIsTransitioning(true);
-      const timer = setTimeout(() => {
-        setPrevPath(location.pathname);
-        setIsTransitioning(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [location.pathname, prevPath]);
-
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
-      <Sidebar />
+    <div className="relative min-h-screen w-full bg-background text-foreground overflow-hidden">
+      {/* Background animations (always behind) */}
+      <div className="absolute inset-0 opacity-40 z-0">
+        <Scene3D />
+      </div>
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8b5cf610_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf610_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
-      <main
-        className={cn(
-          "flex-1 p-4 md:p-8 transition-all duration-500 ease-out relative overflow-x-hidden",
-          isMobile ? "ml-0" : "md:ml-64",
-          isLoading ? "opacity-0 translate-x-8" : "opacity-100 translate-x-0"
-        )}
-      >
-        <div
-          className={cn(
-            "transition-all duration-500 ease-out mx-auto",
-            "max-w-full md:max-w-3xl lg:max-w-5xl xl:max-w-6xl",
-            isTransitioning
-              ? "opacity-0 translate-x-8"
-              : "opacity-100 translate-x-0"
-          )}
-        >
-          {children}
-        </div>
-      </main>
+      {/* Blurred glowing circles */}
+      <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-pulse-glow z-0" />
+      <div className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-accent/20 rounded-full blur-3xl animate-pulse-glow z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl animate-pulse-glow z-0" />
+
+      {/* Floating particles */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-primary/30 rounded-full z-0"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.2, 1, 0.2],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
+
+      {/* Main content always above */}
+      <div className="relative z-10">
+        <Sidebar />
+        <main className="pt-20 ">{children}</main>
+      </div>
     </div>
   );
 };

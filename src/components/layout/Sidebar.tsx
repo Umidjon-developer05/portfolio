@@ -1,126 +1,133 @@
-import { useState, useEffect } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import {
-	Home,
-	User,
-	Briefcase,
-	FileText,
-	Code,
-	Mail,
-	Menu,
-	X,
-	Blocks,
-	Code2,
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Code, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Projects", path: "/projects" },
+  { label: "Skills", path: "/skills" },
+  { label: "Resume", path: "/resume" },
+  { label: "Blogs", path: "/blogs" },
+  { label: "Contact", path: "/contact" },
+];
 
 const Sidebar = () => {
-	const location = useLocation()
-	const isMobile = useIsMobile()
-	const [isOpen, setIsOpen] = useState(!isMobile)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-	useEffect(() => {
-		if (isMobile) {
-			setIsOpen(false)
-		} else {
-			setIsOpen(true)
-		}
-	}, [isMobile])
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-	const toggleSidebar = () => {
-		setIsOpen(!isOpen)
-	}
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-2 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <NavLink to="/" className="flex items-center gap-3 group">
+              <img src="/logo.svg" alt="" className="w-10 h-10" />
+              <span className="text-3xl font-bold text-gradient">Umidjon</span>
+            </NavLink>
 
-	const navigation = [
-		{ name: 'Home', path: '/', icon: Home },
-		{ name: 'About', path: '/about', icon: User },
-		{ name: 'Projects', path: '/projects', icon: Briefcase },
-		{ name: 'Resume', path: '/resume', icon: FileText },
-		{ name: 'Skills', path: '/skills', icon: Code },
-		{ name: 'Blogs', path: '/blogs', icon: Blocks },
-		{
-			name: 'CodeImageConverter',
-			path: '/code-image-converter',
-			icon: Code2,
-		},
-		{ name: 'Contact', path: '/contact', icon: Mail },
-	]
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `text-sm font-medium transition-all duration-300 relative group ${
+                      isActive
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`
+                  }
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
+                </NavLink>
+              ))}
+            </div>
 
-	return (
-		<>
-			{/* Mobile menu button */}
-			<button
-				onClick={toggleSidebar}
-				className='fixed top-4 left-200 right-5 z-50 p-2 rounded-lg bg-secondary text-foreground lg:hidden'
-			>
-				{isOpen ? <X size={24} /> : <Menu size={24} />}
-			</button>
+            {/* CTA Button */}
+            <div className="hidden md:block">
+              <Button asChild className="glow-effect">
+                <NavLink to="/contact">Let's Talk</NavLink>
+              </Button>
+            </div>
 
-			{/* Sidebar backdrop for mobile */}
-			{isMobile && isOpen && (
-				<div
-					className='fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden'
-					onClick={() => setIsOpen(false)}
-				/>
-			)}
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-foreground hover:text-primary transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
 
-			{/* Sidebar */}
-			<div
-				className={cn(
-					'fixed top-0 left-0 h-full w-64 bg-sidebar z-40 transition-transform duration-300 ease-in-out',
-
-					!isOpen && 'transform -translate-x-full md:translate-x-0',
-
-					'flex flex-col justify-between border-r border-sidebar-border'
-				)}
-			>
-				<div className='p-6 flex-shrink-0'>
-					<div className='flex items-center gap-3 mb-8'>
-						<div className='h-12 w-12 rounded-full bg-purple-600 flex items-center justify-center'>
-							<img
-								src='/logo.svg'
-								alt='Umidjon Logo'
-								className='h-12 w-12 rounded-full object-cover'
-							/>
-						</div>
-						<h1 className='text-2xl font-bold text-white tracking-tight font-heading'>
-							Umidjon
-						</h1>
-					</div>
-
-					<nav className='space-y-1 mt-8'>
-						{navigation.map(item => (
-							<NavLink
-								key={item.name}
-								to={item.path}
-								className={({ isActive }) =>
-									cn(
-										'sidebar-link',
-										isActive && 'active bg-primary/10 text-primary font-medium'
-									)
-								}
-								onClick={() => isMobile && setIsOpen(false)}
-							>
-								<item.icon className='h-5 w-5' />
-								<span>{item.name}</span>
-								{location.pathname === item.path && (
-									<span className='absolute inset-y-0 left-0 w-1 bg-primary rounded-r-md' />
-								)}
-							</NavLink>
-						))}
-					</nav>
-				</div>
-
-				<div className='mt-auto p-6 flex-shrink-0'>
-					<div className='glass-card p-4 text-center'>
-						<p className='text-sm text-white/70'>© 2025 Umidjon</p>
-						<p className='text-xs text-white/50 mt-1'>Portfolio</p>
-					</div>
-				</div>
-			</div>
-		</>
-	)
-}
-
-export default Sidebar
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed inset-0 z-40 md:hidden bg-background/95 backdrop-blur-xl pt-24 px-6"
+        >
+          <div className="flex flex-col gap-6">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.path}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <NavLink
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `text-2xl font-bold block py-3 transition-colors ${
+                      isActive
+                        ? "text-primary"
+                        : "text-foreground hover:text-primary"
+                    }`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              </motion.div>
+            ))}
+            <Button asChild className="w-full mt-4 glow-effect" size="lg">
+              <NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                Let's Talk
+              </NavLink>
+            </Button>
+          </div>
+        </motion.div>
+      )}
+    </>
+  );
+};
+export default Sidebar;
